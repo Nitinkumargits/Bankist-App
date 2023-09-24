@@ -119,8 +119,10 @@ const createUserName = function (accs) {
 };
 createUserName(accounts);
 // console.log(accounts);
+///////////////////////////////////////////////////
 
 // EVENT HANDLER
+///////////////////////////////////////////////////
 
 const updateUI = function (acc) {
   // Display movements
@@ -181,6 +183,44 @@ btnTransfer.addEventListener('click', function (e) {
     // Update UI
     updateUI(currentAccount);
   }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+    // .indexOf(23)
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = inputClosePin.value = '';
 });
 
 ///////////////////////////////////////////////
@@ -256,3 +296,20 @@ btnTransfer.addEventListener('click', function (e) {
 //   .map(mov => mov * eurToUsd)
 //   .reduce((acc, mov) => acc + mov, 0);
 // console.log(totalDepositeUSD);
+
+// /////////////////////////
+// Flat & FlatMap method
+
+// const accountsMovements = accounts.map(acc => acc.movements);
+// console.log(accountsMovements);
+
+// const allmovements = accountsMovements.flat();
+// console.log(allmovements);
+
+// const overall = allmovements.reduce((acc, mov) => acc + mov, 0);
+// console.log(overall);
+
+const accountsMovements = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov);
+console.log(accountsMovements);
