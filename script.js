@@ -72,7 +72,7 @@ const displayMovements = function (movements) {
     const html = `
     <div class="movements__row">
     <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-    <div class="movements__value">${mov}</div>
+    <div class="movements__value">${mov}€</div>
   </div>
     `;
 
@@ -81,3 +81,113 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+// ///////////////////////////////////////////////////
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+calcDisplayBalance(account1.movements);
+// ///////////////////////////////////////////////////
+const calcDisplaySummary = function (movements) {
+  const income = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, cur) => acc + cur, 0);
+
+  labelSumIn.textContent = `${income}€`;
+
+  const outcome = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumOut.textContent = `${Math.abs(outcome)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposite => (deposite * 1.2) / 100)
+    .filter((intt, i, Arr) => {
+      console.log(Arr);
+      return intt >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+
+  labelSumInterest.textContent = `${interest}€`;
+};
+calcDisplaySummary(account1.movements);
+// ///////////////////////////////////////////////////
+const createUserName = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+createUserName(accounts);
+// console.log(accounts);
+
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
+// fliter method
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// DEPOSTIE
+
+// const deposite = movements.filter(function (mov) {
+//   return mov > 0;
+// });
+
+// console.log(movements);
+// console.log(deposite);
+
+//WITHDRAWALS
+
+// const withdrawal = movements.filter(function (mov) {
+//   return mov < 0;
+// });
+
+// console.log(movements);
+// console.log(withdrawal);
+
+// const deposite = function (accs) {
+//   accs.forEach(function (acc) {
+//     acc.movements = acc.movements.filter(function (mov) {
+//       return mov > 0;
+//     });
+//   });
+// };
+// console.log(deposite(accounts));
+
+// const account3 = {
+//   owner: 'Steven Thomas Williams',
+//   movements: [200, -200, 340, -300, -20, 50, 400, -460],
+//   interestRate: 0.7,
+//   pin: 3333,
+// };
+
+/////////////////////
+//REDUCE METHOD
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// // FIND MAX VALUE
+
+// const max = movements.reduce((acc, mov) => {
+//   if (acc > mov) return acc;
+//   else return mov;
+// }, movements[0]);
+// console.log(max);
+
+// const balanceLeft = movements.reduce(function (acc, cur, i, arr) {
+//   return acc + cur;
+// }, 0);
+
+// console.log(balanceLeft);
+
+// const eurToUsd = 1.1;
+// const totalDepositeUSD = movements
+//   .filter(mov => mov > 0)
+//   .map(mov => mov * eurToUsd)
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(totalDepositeUSD);
