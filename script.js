@@ -332,3 +332,23 @@ labelBalance.addEventListener('click', function () {
 //   .flatMap(acc => acc.movements)
 //   .reduce((acc, mov) => acc + mov);
 // console.log(accountsMovements);
+
+// ////////////////////////////////////////////////
+
+// Array exe
+
+// const bankDepositSum2 = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov > 0)
+//   .reduce((acc, cur) => acc + cur);
+// console.log(bankDepositSum2);
+// const bankDepositSum2 = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .reduce((acc, cur) => acc + cur);
+// console.log(bankDepositSum2);
+
+const numDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((count, cur) => (cur >= 1000 ? count++ : count), 0);
+console.log(numDeposits1000);
